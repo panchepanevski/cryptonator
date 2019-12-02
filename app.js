@@ -10,8 +10,10 @@ const passwords = {
 
 switch (cmd) {
   case "get":
-    const results = get(key);
-    console.log(result);
+    {
+      const results = get(key);
+      console.log(result);
+    }
     break;
 
   case "set":
