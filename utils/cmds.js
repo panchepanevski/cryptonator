@@ -1,35 +1,54 @@
 const fs = require("fs");
 
-function get(key) {
-  try {
-    const passwords = read();
-    return passwords[key];
-  } catch (error) {
-    return undefined;
-  }
+const passwordFileName = ".passwords.json";
+
+function readPasswords() {
+  return new Promise(resolve => {
+    fs.readFile(passwordFileName, "utf-8", (error, passwordJSON) => {
+      if (error) {
+        return resolve({});
+      }
+      try {
+        const passwords = JSON.parse(passwordJSON);
+        resolve(passwords);
+      } catch (error) {
+        console.error(`Invalid ${passwordFileName}`);
+        resolve({});
+      }
+    });
+  });
 }
 
-function set(key, value) {
-  const passwords = read();
+function writePasswords(passwords) {
+  fs.writeFile(passwordFileName, JSON.stringify(passwords, null, 2), error => {
+    if (error) {
+      console.error(error);
+    }
+  });
+}
+
+async function get(key) {
+  const passwords = await readPasswords();
+  return passwords[key];
+}
+
+async function set(key, value) {
+  const passwords = await readPasswords();
   passwords[key] = value;
-  write(passwords);
+  writePasswords(passwords);
 }
 
-function write(passwords) {
-  fs.writeFileSync("./passwords.json", JSON.stringify(passwords, null, 2));
-}
-
-function read() {
-  const passwordJSON = fs.readFileSync("./passwords.json", "utf-8");
-  const passwords = JSON.parse(passwordJSON);
-  return passwords;
-}
-
-function unset(key) {
-  const passwords = read();
+async function unset(key) {
+  const passwords = await readPasswords();
   delete passwords[key];
-  write(passwords);
+  writePasswords(passwords);
 }
+
+// module.exports = {
+//   get,
+//   set,
+//   unset
+// }
 
 exports.get = get;
 exports.set = set;
