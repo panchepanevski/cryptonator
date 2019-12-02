@@ -3,15 +3,10 @@ const { get, set, unset } = require("./utils/cmds.js");
 const userArgs = process.argv.slice(2);
 const [cmd, key, value] = userArgs;
 
-const passwords = {
-  wifi: 123,
-  mac: "mac321"
-};
-
 switch (cmd) {
   case "get":
     {
-      const results = get(key);
+      const result = get(key);
       console.log(result);
     }
     break;
