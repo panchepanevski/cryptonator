@@ -1,4 +1,7 @@
+const { get, set, unset } = require("./utils/cmds.js");
+
 const [cmd, key, value] = process.argv.slice(2);
+const [cmd, key, value] = userArgs;
 
 const passwords = {
   wifi: 123,
@@ -7,20 +10,18 @@ const passwords = {
 
 switch (cmd) {
   case "get":
-    console.log(passwords[key]);
+    const results = get(key);
+    console.log(result);
     break;
 
   case "set":
-    console.log("set");
-    passwords[key] = value;
+    set(key, value);
     break;
 
   case "unset":
-    console.log("unset");
+    unset(key);
     break;
 
   default:
     console.error("Unknown command");
 }
-
-console.log(paswords);
