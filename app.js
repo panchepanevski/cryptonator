@@ -1,6 +1,6 @@
 const { get, set, unset } = require("./utils/cmds.js");
 
-const [cmd, key, value] = process.argv.slice(2);
+const userArgs = process.argv.slice(2);
 const [cmd, key, value] = userArgs;
 
 const passwords = {

@@ -11,8 +11,8 @@ function set(key, value) {
   passwords[key] = value;
 }
 
-function unset(passwords) {
-  delete passwords.key;
+function unset(key) {
+  delete passwords[key];
 }
 
 exports.get = get;
